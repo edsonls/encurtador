@@ -3,6 +3,7 @@
 
 namespace App\Entity;
 
+use Ramsey\Uuid\Uuid;
 
 class Url
 {
@@ -19,6 +20,7 @@ class Url
    */
   public function __construct(int $hits, string $shortUrl, string $url)
   {
+    $this->id = Uuid::uuid4()->toString();
     $this->hits = $hits;
     $this->shortUrl = $shortUrl;
     $this->url = $url;
@@ -55,6 +57,6 @@ class Url
   {
     return $this->url;
   }
-  
+
 
 }
