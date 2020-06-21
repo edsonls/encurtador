@@ -4,7 +4,7 @@
 namespace App\Drivers\Interfaces;
 
 
-use App\Entity\User;
+use App\Entities\User;
 
 interface IUserDriver
 {

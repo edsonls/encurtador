@@ -1,10 +1,8 @@
 <?php
-
-
 namespace App\Services;
 
-
 use App\Drivers\Interfaces\IUserDriver;
+use App\Entities\User;
 use App\Services\Interfaces\IUserService;
 
 class UserService implements IUserService
@@ -18,6 +16,7 @@ class UserService implements IUserService
 
   public function add(string $id): bool
   {
-    var_dump($id) or die();
+    $user = new User($id);
+    return $this->drive->save($user);
   }
 }
