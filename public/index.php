@@ -13,8 +13,15 @@ $app = AppFactory::create();
 $app->post(
   '/users',
   static function (Request $request, Response $response) {
-    $user = new UserController();
-    $user->add($request->getBody());
+    $response
+      ->withHeader('Content-Type', 'application/json');
+    try {
+      $user = new UserController();
+      $user->add($request->getBody());
+      return $response->withStatus(201);
+    } catch (Exception $exception) {
+      return $response->withStatus(409);
+    }
   }
 );
 

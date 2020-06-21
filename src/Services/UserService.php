@@ -18,6 +18,6 @@ class UserService implements IUserService
 
   public function add(string $id): bool
   {
-    // TODO: Implement add() method.
+    var_dump($id) or die();
   }
 }
