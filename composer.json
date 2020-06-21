@@ -12,7 +12,8 @@
     "ext-json": "*",
     "slim/slim": "4.*",
     "slim/psr7": "^1.1",
-    "ramsey/uuid": "^4.0"
+    "ramsey/uuid": "^4.0",
+    "mongodb/mongodb": "^1.6"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master"
