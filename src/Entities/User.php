@@ -3,14 +3,13 @@
 
 namespace App\Entities;
 
-
 class User
 {
   private string $id;
   /**
    * @var Url[]
    */
-  private array $url;
+  private ?array $url;
 
   /**
    * User constructor.
@@ -24,7 +23,7 @@ class User
   /**
    * @param Url $url
    */
-  public function addUrl(Url $url)
+  public function addUrl(Url $url): void
   {
     $this->url[] = $url;
   }
@@ -34,7 +33,12 @@ class User
    */
   public function getUrl(): array
   {
-    return $this->url;
+    return $this->url ?? [];
+  }
+
+  public function getId(): string
+  {
+    return $this->id;
   }
 
 }

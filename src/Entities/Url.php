@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Entity;
+namespace App\Entities;
 
 use Ramsey\Uuid\Uuid;
 
