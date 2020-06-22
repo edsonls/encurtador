@@ -17,10 +17,11 @@ class Url
    * @param int $hits
    * @param string $shortUrl
    * @param string $url
+   * @param string|null $id
    */
-  public function __construct(int $hits, string $shortUrl, string $url)
+  public function __construct(int $hits, string $shortUrl, string $url, string $id = null)
   {
-    $this->id = Uuid::uuid4()->toString();
+    $this->id = $id ?? Uuid::uuid4()->toString();
     $this->hits = $hits;
     $this->shortUrl = $shortUrl;
     $this->url = $url;

@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -16,14 +17,38 @@ $app = AppFactory::create();
 $app->post(
   '/users',
   static function (Request $request, Response $response) {
-    $response
+    $resp = $response
       ->withHeader('Content-Type', 'application/json');
     try {
       $user = new UserController();
       $user->add($request->getBody());
-      return $response->withStatus(201);
+      return $resp->withStatus(201);
     } catch (Exception $exception) {
-      return $response->withStatus(409);
+      return $resp->withStatus(409);
+    }
+  }
+);
+$app->post(
+  '/users/{id}/urls',
+  static function (Request $request, Response $response, $args) {
+    $resp = $response
+      ->withHeader('Content-Type', 'application/json');
+    try {
+      $user = new UserController();
+      $url = $user->addUrl($args['id'], $request->getBody());
+      $urlStr = json_encode(
+        [
+          'hits' => $url->getHits(),
+          'shortUrl' => $url->getShortUrl(),
+          'id' => $url->getId(),
+          'url' => $url->getUrl(),
+        ],
+        JSON_THROW_ON_ERROR
+      );
+      $resp->getBody()->write($urlStr);
+      return $resp->withStatus(201);
+    } catch (Exception $exception) {
+      return $resp->withStatus(409);
     }
   }
 );

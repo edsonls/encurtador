@@ -14,10 +14,12 @@ class User
   /**
    * User constructor.
    * @param string $id
+   * @param array|null $urls
    */
-  public function __construct(string $id)
+  public function __construct(string $id, array $urls = null)
   {
     $this->id = $id;
+    $this->url = $urls;
   }
 
   /**
