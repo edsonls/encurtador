@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 use App\Controllers\UrlController;
 use App\Controllers\UserController;
+use App\Utils\Exceptions\ConflictException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -23,8 +24,10 @@ $app->post(
       $user = new UserController();
       $user->add($request->getBody());
       return $resp->withStatus(201);
-    } catch (Exception $exception) {
+    } catch (ConflictException $exception) {
       return $resp->withStatus(409);
+    } catch (Exception $exception) {
+      return $resp->withStatus(400);
     }
   }
 );
@@ -47,8 +50,10 @@ $app->post(
       );
       $resp->getBody()->write($urlStr);
       return $resp->withStatus(201);
-    } catch (Exception $exception) {
+    } catch (ConflictException $exception) {
       return $resp->withStatus(409);
+    } catch (Exception $exception) {
+      return $resp->withStatus(400);
     }
   }
 );

@@ -6,6 +6,7 @@ use App\Drivers\Interfaces\IUserDriver;
 use App\Entities\Url;
 use App\Entities\User;
 use App\Providers\DataBase\MongoClient;
+use App\Utils\Exceptions\ConflictException;
 use Exception;
 use MongoDB\Collection;
 
@@ -21,12 +22,12 @@ class UserMongo extends MongoClient implements IUserDriver
   /**
    * @param User $user
    * @return bool
-   * @throws Exception
+   * @throws ConflictException
    */
   public function save(User $user): bool
   {
     if ($this->exist($user->getId())) {
-      throw new Exception('Usuario já cadastrado');
+      throw new ConflictException('Usuario já cadastrado');
     }
     $this->collection->insertOne(
       [
@@ -89,5 +90,15 @@ class UserMongo extends MongoClient implements IUserDriver
       $aux[] = new Url($item->hits, $item->shortUrl, $item->url, $item->id);
     }
     return $aux;
+  }
+
+  public function validUrl(User $user, string $url): bool
+  {
+    foreach ($user->getUrl() as $item) {
+      if ($item->getUrl() === $url) {
+        return false;
+      }
+    }
+    return true;
   }
 }
