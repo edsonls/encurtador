@@ -103,6 +103,25 @@ $app->get(
       return $response->withStatus(404);
     }
   }
+);$app->get(
+  '/stats/{id}',
+  static function (Request $request, Response $response, $args) {
+    $resp = $response
+      ->withHeader('Content-Type', 'application/json');
+    try {
+      $urlController = new UrlController();
+      $urlObj = $urlController->get($args['id']);
+      $resp->getBody()->write(
+        json_encode(
+          $urlObj,
+          JSON_THROW_ON_ERROR
+        )
+      );
+      return $resp->withStatus(200);
+    } catch (Exception $exception) {
+      return $response->withStatus(404);
+    }
+  }
 );
 
 $app->delete(

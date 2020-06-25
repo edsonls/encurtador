@@ -9,7 +9,9 @@ use App\Entities\User;
 
 interface IUrlDriver
 {
-  public function find(string $shortUrl): Url;
+  public function findByShortUrl(string $shortUrl): Url;
+
+  public function find(string $id): Url;
 
   public function save(Url $url): bool;
 

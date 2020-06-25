@@ -55,9 +55,14 @@ class UrlController
     return $this->service->delete($id);
   }
 
-  public function deleteUrlByUser(User $user)
+  public function deleteUrlByUser(User $user): bool
   {
-    $this->service->deleteUrlByUser($user);
+    return $this->service->deleteUrlByUser($user);
+  }
+
+  public function get(string $id): Url
+  {
+    return $this->service->find($id);
   }
 
 

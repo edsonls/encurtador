@@ -15,4 +15,6 @@ interface IUrlService
   public function addUrl(User $user, string $url): Url;
 
   public function delete(string $id): bool;
+
+  public function find(string $id): Url;
 }

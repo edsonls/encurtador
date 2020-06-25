@@ -23,7 +23,7 @@ class UrlService implements IUrlService
 
   public function getUrl(string $shortUrl): string
   {
-    $url = $this->drive->find($shortUrl);
+    $url = $this->drive->findByShortUrl($shortUrl);
     $url->addHit();
     $this->update($url);
     return $url->getUrl();
@@ -61,6 +61,7 @@ class UrlService implements IUrlService
   {
     return $this->drive->delete($id);
   }
+
   /**
    * @param User $user
    * @return bool
@@ -68,5 +69,11 @@ class UrlService implements IUrlService
   public function deleteUrlByUser(User $user): bool
   {
     return $this->drive->deleteUrlByUser($user);
+  }
+
+
+  public function find(string $id): Url
+  {
+    return $this->drive->find($id);
   }
 }

@@ -21,7 +21,7 @@ class UrlMongo extends MongoClient implements IUrlDriver
     $this->collection = $this->getConnection()->selectCollection('Urls');
   }
 
-  public function find(string $shortUrl): Url
+  public function findByShortUrl(string $shortUrl): Url
   {
     $urlMongo = $this->collection->findOne(['shortUrl' => $shortUrl]);
     return new Url (new User($urlMongo->user_id), $urlMongo->hits, $shortUrl, $urlMongo->url, $urlMongo->id);
@@ -170,5 +170,11 @@ class UrlMongo extends MongoClient implements IUrlDriver
       throw new DataBaseException('Url não existente');
     }
     return true;
+  }
+
+  public function find(string $id): Url
+  {
+    $urlMongo = $this->collection->findOne(['id' => $id]);
+    return new Url (new User($urlMongo->user_id), $urlMongo->hits, $urlMongo->shortUrl, $urlMongo->url, $urlMongo->id);
   }
 }
