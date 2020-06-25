@@ -13,4 +13,6 @@ interface IUserDriver
   public function find(string $user_id): User;
 
   public function validUrl(User $user, string $url): bool;
+
+  public function delete(User $user): bool;
 }

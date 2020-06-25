@@ -33,4 +33,8 @@ interface IUrlDriver
    * @return Url[]
    */
   public function topUrls(?User $user, int $int): array;
+
+  public function delete(string $id): bool;
+
+  public function deleteUrlByUser(User $user): bool;
 }

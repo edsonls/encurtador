@@ -46,4 +46,19 @@ class UrlController
   }
 
 
+  /**
+   * @param $id
+   * @return bool
+   */
+  public function deleteUrl($id): bool
+  {
+    return $this->service->delete($id);
+  }
+
+  public function deleteUrlByUser(User $user)
+  {
+    $this->service->deleteUrlByUser($user);
+  }
+
+
 }

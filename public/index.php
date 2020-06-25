@@ -104,6 +104,36 @@ $app->get(
     }
   }
 );
+
+$app->delete(
+  '/urls/{id}',
+  static function (Request $request, Response $response, $args) {
+    try {
+      $url = new UrlController();
+      $url->deleteUrl($args['id']);
+      return $response
+        ->withStatus(204);
+    } catch (Exception $exception) {
+      return $response->withStatus(404);
+    }
+  }
+);
+$app->delete(
+  '/users/{id}',
+  static function (Request $request, Response $response, $args) {
+    try {
+      $userController = new UserController();
+      $url = new UrlController();
+      $url->deleteUrlByUser($userController->getUser($args['id']));
+      $userController->delete($args['id']);
+      return $response
+        ->withStatus(204);
+    } catch (Exception $exception) {
+      return $response->withStatus(404);
+    }
+  }
+);
+
 $app->get(
   '/{id}',
   static function (Request $request, Response $response, $args) {

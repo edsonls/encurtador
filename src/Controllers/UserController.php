@@ -35,9 +35,14 @@ class UserController
     return $this->service->add($body['id']);
   }
 
-  public function getUser($id):User
+  public function getUser(string $id): User
   {
     return $this->service->getUser($id);
+  }
+
+  public function delete(string $id):bool
+  {
+    return $this->service->delete($id);
   }
 
 }

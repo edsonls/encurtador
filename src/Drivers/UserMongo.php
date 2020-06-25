@@ -41,6 +41,11 @@ class UserMongo extends MongoClient implements IUserDriver
     return $this->collection->countDocuments(['id' => $id]) > 0;
   }
 
+  /**
+   * @param string $id
+   * @return User
+   * @throws DataBaseException
+   */
   public function find(string $id): User
   {
     $userMongo = $this->collection->findOne(['id' => $id]);
@@ -56,6 +61,20 @@ class UserMongo extends MongoClient implements IUserDriver
       if ($item->getUrl() === $url) {
         return false;
       }
+    }
+    return true;
+  }
+
+  /**
+   * @param User $user
+   * @return bool
+   * @throws DataBaseException
+   */
+  public function delete(User $user): bool
+  {
+    $deleteResult = $this->collection->deleteOne(['id' => $user->getId()]);
+    if ($deleteResult->getDeletedCount() <= 0) {
+      throw new DataBaseException('Url não existente');
     }
     return true;
   }

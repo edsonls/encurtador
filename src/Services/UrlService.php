@@ -52,4 +52,21 @@ class UrlService implements IUrlService
   {
     return $this->drive->update($url);
   }
+
+  /**
+   * @param string $id
+   * @return bool
+   */
+  public function delete(string $id): bool
+  {
+    return $this->drive->delete($id);
+  }
+  /**
+   * @param User $user
+   * @return bool
+   */
+  public function deleteUrlByUser(User $user): bool
+  {
+    return $this->drive->deleteUrlByUser($user);
+  }
 }

@@ -8,6 +8,7 @@ use App\Drivers\Interfaces\IUrlDriver;
 use App\Entities\Url;
 use App\Entities\User;
 use App\Providers\DataBase\MongoClient;
+use App\Utils\Exceptions\DataBaseException;
 use Exception;
 use MongoDB\Collection;
 
@@ -141,5 +142,33 @@ class UrlMongo extends MongoClient implements IUrlDriver
       $urls[] = new Url ($user, $url->hits, $url->shortUrl, $url->url, $url->id);
     }
     return $urls;
+  }
+
+  /**
+   * @param string $id
+   * @return bool
+   * @throws DataBaseException
+   */
+  public function delete(string $id): bool
+  {
+    $deleteResult = $this->collection->deleteOne(['id' => $id]);
+    if ($deleteResult->getDeletedCount() <= 0) {
+      throw new DataBaseException('Url não existente');
+    }
+    return true;
+  }
+
+  /**
+   * @param User $user
+   * @return bool
+   * @throws DataBaseException
+   */
+  public function deleteUrlByUser(User $user): bool
+  {
+    $deleteResult = $this->collection->deleteMany(['user_id' => $user->getId()]);
+    if ($deleteResult->getDeletedCount() <= 0) {
+      throw new DataBaseException('Url não existente');
+    }
+    return true;
   }
 }

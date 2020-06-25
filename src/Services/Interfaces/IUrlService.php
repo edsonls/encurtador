@@ -13,4 +13,6 @@ interface IUrlService
   public function getUrl(string $shortUrl): string;
 
   public function addUrl(User $user, string $url): Url;
+
+  public function delete(string $id): bool;
 }
