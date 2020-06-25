@@ -14,7 +14,7 @@ abstract class MongoClient
   public function getConnection(): Database
   {
     if (empty($this->con)) {
-      $con = new Mongo("mongodb://172.17.0.3:27017");
+      $con = new Mongo("mongodb://{$_ENV['MONGO_DATABASE_HOST']}:{$_ENV['MONGO_DATABASE_PORT']}");
       $this->con = $con->selectDatabase($this->dataBase);
     }
     return $this->con;

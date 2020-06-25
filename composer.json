@@ -13,7 +13,8 @@
     "slim/slim": "4.*",
     "slim/psr7": "^1.1",
     "ramsey/uuid": "^4.0",
-    "mongodb/mongodb": "^1.6"
+    "mongodb/mongodb": "^1.6",
+    "vlucas/phpdotenv": "^5.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master"
