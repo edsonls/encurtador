@@ -12,7 +12,5 @@ interface IUserDriver
 
   public function find(string $user_id): User;
 
-  public function update(User $user): bool;
-
   public function validUrl(User $user, string $url): bool;
 }

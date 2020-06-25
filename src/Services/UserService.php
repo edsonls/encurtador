@@ -35,7 +35,7 @@ class UserService implements IUserService
   public function addUrl(string $user_id, string $url): Url
   {
     $user = $this->drive->find($user_id);
-    if(!$this->drive->validUrl($user,$url)){
+    if (!$this->drive->validUrl($user, $url)) {
       throw new ConflictException('Url já existente!');
     }
     $urlObject = new Url(0, Encurtador::generateRandomString(6), $url);
@@ -44,5 +44,10 @@ class UserService implements IUserService
       throw new DataBaseException('Erro DataBase');
     }
     return $urlObject;
+  }
+
+  public function getUser(string $id): User
+  {
+    return $this->drive->find($id);
   }
 }

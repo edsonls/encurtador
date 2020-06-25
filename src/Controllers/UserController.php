@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Drivers\UserMongo;
-use App\Entities\Url;
+use App\Entities\User;
 use App\Services\Interfaces\IUserService;
 use App\Services\UserService;
 use App\Utils\Exceptions\RequestException;
@@ -35,19 +35,9 @@ class UserController
     return $this->service->add($body['id']);
   }
 
-  /**
-   * @param string $user_id
-   * @param StreamInterface $request
-   * @return Url
-   * @throws JsonException
-   * @throws RequestException
-   */
-  public function addUrl(string $user_id, StreamInterface $request): Url
+  public function getUser($id):User
   {
-    $body = json_decode($request->__toString(), true, 512, JSON_THROW_ON_ERROR);
-    if (empty($user_id) || !array_key_exists('url', $body)) {
-      throw new RequestException('Body Inválido!');
-    }
-    return $this->service->addUrl($user_id, $body['url']);
+    return $this->service->getUser($id);
   }
+
 }

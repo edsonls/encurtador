@@ -37,14 +37,16 @@ $app->post(
     $resp = $response
       ->withHeader('Content-Type', 'application/json');
     try {
-      $user = new UserController();
-      $url = $user->addUrl($args['id'], $request->getBody());
+      $userController = new UserController();
+      $user = $userController->getUser($args['id']);
+      $url = new UrlController();
+      $urlObj = $url->addUrl($user, $request->getBody());
       $urlStr = json_encode(
         [
-          'hits' => $url->getHits(),
-          'shortUrl' => $url->getShortUrl(),
-          'id' => $url->getId(),
-          'url' => $url->getUrl(),
+          'hits' => $urlObj->getHits(),
+          'shortUrl' => $urlObj->getShortUrl(),
+          'id' => $urlObj->getId(),
+          'url' => $urlObj->getUrl(),
         ],
         JSON_THROW_ON_ERROR
       );
@@ -61,7 +63,8 @@ $app->post(
 $app->get(
   '/{id}',
   static function (Request $request, Response $response, $args) {
-    $response->getBody()->write(UrlController::get($args['id']));
+    $url = new UrlController();
+    $response->getBody()->write($url->getUrl($args['id']));
     return $response
       ->withHeader('Content-Type', 'application/json');
   }
