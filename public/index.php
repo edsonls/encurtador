@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+use App\Controllers\StatsController;
 use App\Controllers\UrlController;
 use App\Controllers\UserController;
 use App\Utils\Exceptions\ConflictException;
@@ -40,14 +41,8 @@ $app->post(
       $userController = new UserController();
       $user = $userController->getUser($args['id']);
       $url = new UrlController();
-      $urlObj = $url->addUrl($user, $request->getBody());
       $urlStr = json_encode(
-        [
-          'hits' => $urlObj->getHits(),
-          'shortUrl' => $urlObj->getShortUrl(),
-          'id' => $urlObj->getId(),
-          'url' => $urlObj->getUrl(),
-        ],
+        $url->addUrl($user, $request->getBody()),
         JSON_THROW_ON_ERROR
       );
       $resp->getBody()->write($urlStr);
@@ -60,6 +55,55 @@ $app->post(
   }
 );
 
+
+$app->get(
+  '/users/{user_id}/stats',
+  static function (Request $request, Response $response, $args) {
+    $resp = $response
+      ->withHeader('Content-Type', 'application/json');
+    try {
+      $stats = new StatsController();
+      $statsObj = $stats->getByUser($args['user_id']);
+      $resp->getBody()->write(
+        json_encode(
+          [
+            'hits' => $statsObj->getHits(),
+            'urlCount' => $statsObj->getUrlCount(),
+            'topUrls' => $statsObj->getTopUrls(),
+          ],
+          JSON_THROW_ON_ERROR
+        )
+      );
+      return $resp->withStatus(200);
+    } catch (Exception $exception) {
+      return $response->withStatus(404);
+    }
+  }
+);
+$app->get(
+  '/stats',
+  static function (Request $request, Response $response, $args) {
+    $resp = $response
+      ->withHeader('Content-Type', 'application/json');
+    try {
+      $stats = new StatsController();
+      $statsObj = $stats->get();
+      $resp->getBody()->write(
+        json_encode(
+          [
+            'hits' => $statsObj->getHits(),
+            'urlCount' => $statsObj->getUrlCount(),
+            'topUrls' => $statsObj->getTopUrls(),
+          ],
+          JSON_THROW_ON_ERROR
+        )
+      );
+      return $resp->withStatus(200);
+    } catch (Exception $exception) {
+      return $response->withStatus(404);
+    }
+  }
+);
 $app->get(
   '/{id}',
   static function (Request $request, Response $response, $args) {
@@ -69,7 +113,7 @@ $app->get(
         ->withHeader('Location', $url->getUrl($args['id']))
         ->withStatus(301);
     } catch (Exception $exception) {
-      return $response->withStatus(400);
+      return $response->withStatus(404);
     }
   }
 );

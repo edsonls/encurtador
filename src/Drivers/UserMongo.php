@@ -6,6 +6,7 @@ use App\Drivers\Interfaces\IUserDriver;
 use App\Entities\User;
 use App\Providers\DataBase\MongoClient;
 use App\Utils\Exceptions\ConflictException;
+use App\Utils\Exceptions\DataBaseException;
 use MongoDB\Collection;
 
 class UserMongo extends MongoClient implements IUserDriver
@@ -43,6 +44,9 @@ class UserMongo extends MongoClient implements IUserDriver
   public function find(string $id): User
   {
     $userMongo = $this->collection->findOne(['id' => $id]);
+    if (empty($userMongo)) {
+      throw new DataBaseException('User Not Found');
+    }
     return new User($userMongo->id);
   }
 

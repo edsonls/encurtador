@@ -3,12 +3,13 @@
 
 namespace App\Entities;
 
+use JsonSerializable;
 use Ramsey\Uuid\Uuid;
 
-class Url
+class Url implements JsonSerializable
 {
   private string $id;
-  private User $user;
+  private ?User $user;
   private int $hits;
   private string $shortUrl;
   private string $url;
@@ -21,7 +22,7 @@ class Url
    * @param string $url
    * @param string|null $id
    */
-  public function __construct(User $user, int $hits, string $shortUrl, string $url, string $id = null)
+  public function __construct(?User $user, int $hits, string $shortUrl, string $url, string $id = null)
   {
     $this->user = $user;
     $this->id = $id ?? Uuid::uuid4()->toString();
@@ -76,4 +77,13 @@ class Url
   }
 
 
+  public function jsonSerialize()
+  {
+    return [
+      'id' => $this->id,
+      'hits' => $this->hits,
+      'url' => $this->url,
+      'shortUrl' => $this->shortUrl,
+    ];
+  }
 }

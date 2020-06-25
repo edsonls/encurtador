@@ -23,6 +23,14 @@ class User
   }
 
   /**
+   * @param Url[] $url
+   */
+  public function setUrl(array $url): void
+  {
+    $this->url = $url;
+  }
+
+  /**
    * @param Url $url
    */
   public function addUrl(Url $url): void
