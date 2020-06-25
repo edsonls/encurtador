@@ -63,10 +63,14 @@ $app->post(
 $app->get(
   '/{id}',
   static function (Request $request, Response $response, $args) {
-    $url = new UrlController();
-    $response->getBody()->write($url->getUrl($args['id']));
-    return $response
-      ->withHeader('Content-Type', 'application/json');
+    try {
+      $url = new UrlController();
+      return $response
+        ->withHeader('Location', $url->getUrl($args['id']))
+        ->withStatus(301);
+    } catch (Exception $exception) {
+      return $response->withStatus(400);
+    }
   }
 );
 
