@@ -1,0 +1,31 @@
+version: '3'
+networks:
+  encurtador:
+    driver: bridge
+services:
+  #######################################
+  # Mongo: Banco para os serviços
+  #######################################
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: on-failure
+    networks:
+      - encurtador
+    ports:
+    - "27017:27017"
+
+  aplicacaco:
+    container_name: aplicacao
+    build:
+      context: .
+      args:
+        - img=webdevops/php-apache:7.4
+    restart: on-failure
+    networks:
+      - encurtador
+    ports:
+    - "8088:80"
+    - "44388:443"
+
+
