@@ -83,7 +83,7 @@ class Url implements JsonSerializable
       'id' => $this->id,
       'hits' => $this->hits,
       'url' => $this->url,
-      'shortUrl' => $this->shortUrl,
+      'shortUrl' => \App\Utils\Url::formatUrl($this->getShortUrl()),
     ];
   }
 }
