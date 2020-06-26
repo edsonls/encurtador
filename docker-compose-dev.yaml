@@ -1,0 +1,35 @@
+version: '3'
+networks:
+  encurtador:
+    driver: bridge
+services:
+  #######################################
+  # Mongo: Banco para os serviços
+  #######################################
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: on-failure
+    networks:
+      - encurtador
+
+  #######################################
+  # Aplicações
+  #######################################
+  app:
+    depends_on:
+      - mongo
+    container_name: app
+    build:
+      context: .
+      args:
+        - img=webdevops/php-apache:7.4
+    restart: on-failure
+    ports:
+    - "80:80"
+    volumes:
+    - "./:/app"
+    env_file:
+      - config.env
+    networks:
+      - encurtador
