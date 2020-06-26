@@ -12,8 +12,6 @@ services:
     restart: on-failure
     networks:
       - encurtador
-    ports:
-      - "27017:27017"
 
   app:
     depends_on:
@@ -43,6 +41,30 @@ services:
     depends_on:
       - nginx
     container_name: app3
+    build:
+      context: .
+      args:
+        - img=webdevops/php-apache:7.4
+    restart: on-failure
+    networks:
+      - encurtador
+
+  app4:
+    depends_on:
+      - nginx
+    container_name: app4
+    build:
+      context: .
+      args:
+        - img=webdevops/php-apache:7.4
+    restart: on-failure
+    networks:
+      - encurtado
+
+  app5:
+    depends_on:
+      - nginx
+    container_name: app5
     build:
       context: .
       args:
