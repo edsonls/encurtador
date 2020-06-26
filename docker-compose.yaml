@@ -13,6 +13,9 @@ services:
     networks:
       - encurtador
 
+  #######################################
+  # Aplicações
+  #######################################
   app:
     depends_on:
       - nginx
@@ -59,7 +62,7 @@ services:
         - img=webdevops/php-apache:7.4
     restart: on-failure
     networks:
-      - encurtado
+      - encurtador
 
   app5:
     depends_on:
@@ -72,7 +75,9 @@ services:
     restart: on-failure
     networks:
       - encurtador
-
+  #######################################
+  # Load Balance
+  #######################################
   nginx:
     container_name: load_balance
     image: nginx:alpine

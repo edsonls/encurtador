@@ -1,9 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 use App\Controllers\StatsController;
 use App\Controllers\UrlController;
 use App\Controllers\UserController;
@@ -165,6 +161,16 @@ $app->get(
     } catch (Exception $exception) {
       return $response->withStatus(404);
     }
+  }
+);
+
+$app->get(
+  '/',
+  static function (Request $request, Response $response, $args) {
+    $resp = $response
+      ->withHeader('Content-Type', 'application/json');
+      return $resp
+        ->getBody()->write('*-*');
   }
 );
 
