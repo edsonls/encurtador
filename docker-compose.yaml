@@ -15,10 +15,10 @@ services:
     ports:
       - "27017:27017"
 
-  aplicacaco:
+  app:
     depends_on:
       - nginx
-    container_name: aplicacao
+    container_name: app
     build:
       context: .
       args:
@@ -26,9 +26,30 @@ services:
     restart: on-failure
     networks:
       - encurtador
-    ports:
-      - "8088:80"
-      - "44388:443"
+
+  app2:
+    depends_on:
+      - nginx
+    container_name: app2
+    build:
+      context: .
+      args:
+        - img=webdevops/php-apache:7.4
+    restart: on-failure
+    networks:
+      - encurtador
+
+  app3:
+    depends_on:
+      - nginx
+    container_name: app3
+    build:
+      context: .
+      args:
+        - img=webdevops/php-apache:7.4
+    restart: on-failure
+    networks:
+      - encurtador
 
   nginx:
     container_name: load_balance
