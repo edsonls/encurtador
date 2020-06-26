@@ -13,9 +13,11 @@ services:
     networks:
       - encurtador
     ports:
-    - "27017:27017"
+      - "27017:27017"
 
   aplicacaco:
+    depends_on:
+      - nginx
     container_name: aplicacao
     build:
       context: .
@@ -25,7 +27,16 @@ services:
     networks:
       - encurtador
     ports:
-    - "8088:80"
-    - "44388:443"
+      - "8088:80"
+      - "44388:443"
 
-
+  nginx:
+    container_name: load_balance
+    image: nginx:alpine
+    restart: always
+    volumes:
+    - "./nginx/:/etc/nginx/conf.d/:ro"
+    networks:
+      - encurtador
+    ports:
+      - "80:80"
